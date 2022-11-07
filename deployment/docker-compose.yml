@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+
+  rabbitmq2:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+
+  api2:
+    image: grzegorzrychlicki/si_api:1.0
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - RABBIT_HOST=rabbitmq2
+      - RABBIT_PORT=5672
+      - RABBIT_QUEUE_NAME=q
+    ports:
+      - "8090:80"
+    depends_on:
+      - rabbitmq2
