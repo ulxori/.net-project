@@ -1,4 +1,5 @@
 using System.Text;
+using api.Repositories;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -7,14 +8,16 @@ namespace api.Workers;
 public class Worker : BackgroundService
 {
     private readonly ILogger<Worker> _logger;
+    private IMeasurementRepository _measurementRepository;
     private IConnection _connection;
     private IModel _channel;
     private readonly string _queueName;
     
-    public Worker(ILogger<Worker> logger)
+    public Worker(ILogger<Worker> logger, IMeasurementRepository measurementRepository)
     {
         _logger = logger;
         _queueName = Environment.GetEnvironmentVariable("QUEUE_NAME") ?? "q";
+        _measurementRepository = measurementRepository;
     }
 
     public override Task StartAsync(CancellationToken cancellationToken)
@@ -23,7 +26,7 @@ public class Worker : BackgroundService
         int port;
         if (!int.TryParse(Environment.GetEnvironmentVariable("PORT"), out port))
         {
-            port = 5672;
+            port = 56272;
         }
         
         var factory = new ConnectionFactory
@@ -47,6 +50,7 @@ public class Worker : BackgroundService
             var body = ea.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
             _logger.LogInformation(" [x] Received {0}", message);
+            _measurementRepository.Add(message);
         };
         
         _channel.BasicConsume(queue: _queueName,

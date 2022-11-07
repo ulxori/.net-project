@@ -1,3 +1,4 @@
+using api.Repositories;
 using api.Workers;
 using RabbitMQ.Client;
 
@@ -8,6 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHostedService<Worker>();
+builder.Services.AddSingleton<IMeasurementRepository, MeasurementRepository>();
 
 var factory = new ConnectionFactory
 {
