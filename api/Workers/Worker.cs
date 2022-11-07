@@ -2,6 +2,7 @@ using System.Text;
 using api.Repositories;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using RabbitMQ.Client.Exceptions;
 
 namespace api.Workers;
 
@@ -35,7 +36,22 @@ public class Worker : BackgroundService
             Port = port,
             DispatchConsumersAsync = true
         };
-        _connection = factory.CreateConnection();
+        bool notConnected = true;
+        while (notConnected)
+        {
+            try
+            {
+                _connection = factory.CreateConnection();
+                notConnected = false;
+            }
+            catch (BrokerUnreachableException e)
+            {
+                _logger.LogInformation("Failed to connect");
+                Thread.Sleep(10000);
+            }
+        }
+        
+
         _channel = _connection.CreateModel();
         _channel.QueueDeclare(_queueName, false, false, false);
         
