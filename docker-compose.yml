@@ -7,14 +7,22 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - api_net
 
   api2:
     build: ./api
-    image: api2
+    image: api3
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - HOST=rabbitmq2
     restart: on-failure
+    networks:
+      - api_net
     depends_on:
       - rabbitmq2
+
+networks:
+  api_net:
+    driver: bridge
     
