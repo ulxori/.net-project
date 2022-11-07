@@ -17,26 +17,27 @@ public class Worker : BackgroundService
     public Worker(ILogger<Worker> logger, IMeasurementRepository measurementRepository)
     {
         _logger = logger;
-        _queueName = Environment.GetEnvironmentVariable("QUEUE_NAME") ?? "q";
+        _queueName = Environment.GetEnvironmentVariable("RABBIT_QUEUE_NAME") ?? "q";
         _measurementRepository = measurementRepository;
     }
 
     public override Task StartAsync(CancellationToken cancellationToken)
     {
-        string host = Environment.GetEnvironmentVariable("HOST") ?? "localhost";
+        string host = Environment.GetEnvironmentVariable("RABBIT_HOST") ?? "localhost";
         int port;
-        if (!int.TryParse(Environment.GetEnvironmentVariable("PORT"), out port))
+        if (!int.TryParse(Environment.GetEnvironmentVariable("RABBIT_PORT"), out port))
         {
-            port = 56272;
+            port = 5672;
         }
-        
+        Console.WriteLine(port);
+        Console.WriteLine(host);
         var factory = new ConnectionFactory
         {
             HostName = host, 
             Port = port,
             DispatchConsumersAsync = true
         };
-        bool notConnected = true;
+        bool notConnected = true;   
         while (notConnected)
         {
             try
@@ -47,7 +48,7 @@ public class Worker : BackgroundService
             catch (BrokerUnreachableException e)
             {
                 _logger.LogInformation("Failed to connect");
-                Thread.Sleep(10000);
+                Thread.Sleep(5000);
             }
         }
         
