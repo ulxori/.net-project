@@ -5,10 +5,10 @@ services:
   rabbitmq2:
     image: rabbitmq:3-management
     ports:
-      - "5672:5672"
+      - "15672:15672"
 
   api2:
-    image: grzegorzrychlicki/si_api:1.0
+    image: grzegorzrychlicki/si_api:2.0
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - RABBIT_HOST=rabbitmq2

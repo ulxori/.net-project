@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddHostedService<Worker>();
+//builder.Services.AddHostedService<Worker>();
 builder.Services.AddSingleton<IMeasurementRepository, MeasurementRepository>();
 
 var factory = new ConnectionFactory

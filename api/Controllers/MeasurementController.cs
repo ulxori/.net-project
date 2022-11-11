@@ -1,4 +1,5 @@
 using api.Repositories;
+using api.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers;
@@ -7,18 +8,18 @@ namespace api.Controllers;
 [Route("[controller]")]
 public class MeasurementController : ControllerBase
 {
-    private IMeasurementRepository _measurementRepository;
+    private IMeasurementService _measurementService;
     private readonly ILogger<MeasurementController> _logger;
 
-    public MeasurementController(ILogger<MeasurementController> logger, IMeasurementRepository measurementRepository)
+    public MeasurementController(ILogger<MeasurementController> logger, IMeasurementService measurementService)
     {
         _logger = logger;
-        _measurementRepository = measurementRepository;
+        _measurementService = measurementService;
     }
 
     [HttpGet(Name = "measurement")]
     public string Get()
     {
-        return _measurementRepository.Get();
+        return "temp";
     }
 }
