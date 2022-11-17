@@ -1,3 +1,4 @@
+using api.Models;
 using api.Repositories;
 using api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -18,8 +19,8 @@ public class MeasurementController : ControllerBase
     }
 
     [HttpGet(Name = "measurement")]
-    public string Get()
+    public async Task<List<Measurement>> Get()
     {
-        return "temp";
+        return await _measurementService.Get();
     }
 }

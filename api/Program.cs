@@ -1,4 +1,6 @@
 using api.Repositories;
+using api.Services;
+using api.Settings;
 using api.Workers;
 using RabbitMQ.Client;
 
@@ -8,15 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-//builder.Services.AddHostedService<Worker>();
+builder.Services.AddHostedService<Worker>();
 builder.Services.AddSingleton<IMeasurementRepository, MeasurementRepository>();
-
-var factory = new ConnectionFactory
-{
-    HostName = "localhost",
-    Port = 5672
-};
-
+builder.Services.AddSingleton<IMeasurementService, MeasurementService>();
+builder.Services.AddSingleton<MongoSettings>();
 
 var app = builder.Build();
 

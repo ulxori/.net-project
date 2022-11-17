@@ -12,4 +12,20 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Converters\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Converters\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Converters\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Converters\**" />
+  </ItemGroup>
+
 </Project>

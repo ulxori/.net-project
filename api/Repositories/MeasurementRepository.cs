@@ -1,16 +1,30 @@
+using api.Models;
+using api.Settings;
+using MongoDB.Driver;
+
 namespace api.Repositories;
 
 public class MeasurementRepository : IMeasurementRepository
 {
-    private string _measurement = "Not recorded";
-    
-    public string Get()
+    private readonly ILogger<MeasurementRepository> _logger;
+    private readonly IMongoCollection<Measurement> _measurementCollection;
+
+    public MeasurementRepository(ILogger<MeasurementRepository> logger,
+        MongoSettings mongoSettings)
     {
-        return _measurement;
+        _logger = logger;
+        var mongoClient = new MongoClient(mongoSettings.ConnectionString);
+        var mongoDatabase = mongoClient.GetDatabase(mongoSettings.DatabaseName);
+        _measurementCollection = mongoDatabase.GetCollection<Measurement>(mongoSettings.CollectionName);
     }
 
-    public void Add(string measurement)
+    public async Task Add(Measurement measurement)
     {
-        _measurement = measurement;
+        await _measurementCollection.InsertOneAsync(measurement);
+    }
+
+    public async Task<List<Measurement>> Get()
+    {
+        return await _measurementCollection.Find(_ => true).ToListAsync();
     }
 }

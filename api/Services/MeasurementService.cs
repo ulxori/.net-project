@@ -1,4 +1,6 @@
+using api.Models;
 using api.Repositories;
+using MongoDB.Driver;
 
 namespace api.Services;
 
@@ -12,4 +14,15 @@ public class MeasurementService : IMeasurementService
         _logger = logger;
         _measurementRepository = measurementRepository;
     }
+
+    public async Task Add(Measurement measurement)
+    {
+        await _measurementRepository.Add(measurement);
+    }
+
+    public async Task<List<Measurement>> Get()
+    {
+        return await _measurementRepository.Get();
+    }
+    
 }

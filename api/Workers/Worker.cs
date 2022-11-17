@@ -1,4 +1,6 @@
 using System.Text;
+using System.Text.Json;
+using api.Models;
 using api.Repositories;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -67,7 +69,18 @@ public class Worker : BackgroundService
             var body = ea.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
             _logger.LogInformation(" [x] Received {0}", message);
-            _measurementRepository.Add(message);
+            try
+            {
+                Measurement? measurement = JsonSerializer.Deserialize<Measurement>(message);
+                if (measurement is not null)
+                {
+                    await _measurementRepository.Add(measurement); 
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogWarning("Failed to {1}", e);
+            }
         };
         
         _channel.BasicConsume(queue: _queueName,
