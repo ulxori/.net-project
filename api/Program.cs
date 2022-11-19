@@ -18,6 +18,7 @@ builder.Services.AddSingleton<IMeasurementRepository, MeasurementRepository>();
 builder.Services.AddSingleton<IMeasurementService, MeasurementService>();
 builder.Services.AddSingleton<MongoSettings>();
 builder.Services.AddSingleton<IMeasurementFilteringArgResolver, MeasurementFilterArgResolver>();
+builder.Services.AddSingleton<IMeasurementSortingArgResolver, MeasurementSortingArgResolver>();
 
 var app = builder.Build();
 

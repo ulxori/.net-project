@@ -14,18 +14,22 @@
 
   <ItemGroup>
     <Compile Remove="Converters\**" />
+    <Compile Remove="Filters\Measurement\**" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Remove="Converters\**" />
+    <EmbeddedResource Remove="Filters\Measurement\**" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Converters\**" />
+    <None Remove="Filters\Measurement\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Remove="Converters\**" />
+    <Content Remove="Filters\Measurement\**" />
   </ItemGroup>
 
 </Project>

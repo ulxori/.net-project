@@ -5,5 +5,5 @@ namespace api.Filters;
 
 public interface IMeasurementFilteringArgResolver
 {
-   FilterDefinition<Models.Measurement> GetFilterDefinition(MeasurementParameters measurementParameters);
+   FilterDefinition<Models.Measurement> GetFilterDefinition(MeasurementFilteringParameters measurementFilteringParameters);
 }

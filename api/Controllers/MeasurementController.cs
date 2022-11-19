@@ -2,6 +2,7 @@ using api.Models;
 using api.Repositories;
 using api.Services;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 
 namespace api.Controllers;
 
@@ -19,10 +20,12 @@ public class MeasurementController : ControllerBase
     }
 
     [HttpGet(Name = "measurement")]
-    public async Task<List<Measurement>> Get([FromQuery] MeasurementParameters parameters)
+    public async Task<List<Measurement>> Get([FromQuery] MeasurementFilteringParameters filteringFilteringParameters,
+        [FromQuery] MeasurementSortingParameters sortingParameters)
     {
-        Console.WriteLine(parameters.EndDate.HasValue);
-        return await _measurementService.Get(parameters);
+
+        Console.WriteLine(filteringFilteringParameters.EndDate.HasValue);
+        return await _measurementService.Get(filteringFilteringParameters, sortingParameters);
     }
     
 }
