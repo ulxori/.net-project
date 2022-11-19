@@ -19,8 +19,10 @@ public class MeasurementController : ControllerBase
     }
 
     [HttpGet(Name = "measurement")]
-    public async Task<List<Measurement>> Get()
+    public async Task<List<Measurement>> Get([FromQuery] MeasurementParameters parameters)
     {
-        return await _measurementService.Get();
+        Console.WriteLine(parameters.EndDate.HasValue);
+        return await _measurementService.Get(parameters);
     }
+    
 }

@@ -16,16 +16,16 @@ services:
       - "5672:5672"
       - "15672:15672"
 
-  api2:
-    build: ./api
-    image: api3
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - RABBIT_HOST=rabbitmq2
-      - RABBIT_PORT=5672
-      - RABBIT_QUEUE_NAME=q
-    ports:
-      - "8090:80"
-    restart: on-failure
-    depends_on:
-      - rabbitmq2
+  # api2:
+  #   build: ./api
+  #   image: api3
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #     - RABBIT_HOST=rabbitmq2
+  #     - RABBIT_PORT=5672
+  #     - RABBIT_QUEUE_NAME=q
+  #   ports:
+  #     - "8090:80"
+  #   restart: on-failure
+  #   depends_on:
+  #     - rabbitmq2

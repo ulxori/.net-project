@@ -20,9 +20,9 @@ public class MeasurementService : IMeasurementService
         await _measurementRepository.Add(measurement);
     }
 
-    public async Task<List<Measurement>> Get()
+    public async Task<List<Measurement>> Get(MeasurementParameters parameters)
     {
-        return await _measurementRepository.Get();
+        return await _measurementRepository.Get(parameters);
     }
     
 }

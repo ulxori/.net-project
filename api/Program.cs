@@ -1,3 +1,6 @@
+using api.Filters;
+using api.Filters.Measurement;
+using api.Models;
 using api.Repositories;
 using api.Services;
 using api.Settings;
@@ -14,6 +17,7 @@ builder.Services.AddHostedService<Worker>();
 builder.Services.AddSingleton<IMeasurementRepository, MeasurementRepository>();
 builder.Services.AddSingleton<IMeasurementService, MeasurementService>();
 builder.Services.AddSingleton<MongoSettings>();
+builder.Services.AddSingleton<IMeasurementFilteringArgResolver, MeasurementFilterArgResolver>();
 
 var app = builder.Build();
 
