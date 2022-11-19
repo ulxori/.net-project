@@ -9,12 +9,14 @@
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
     <PackageReference Include="RabbitMQ.Client" Version="6.4.0" />
+    <PackageReference Include="ServiceStack.Text" Version="6.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Converters\**" />
     <Compile Remove="Filters\Measurement\**" />
+    <Compile Remove="Formatters.cs" />
   </ItemGroup>
 
   <ItemGroup>

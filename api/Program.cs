@@ -1,16 +1,15 @@
 using api.Filters;
 using api.Filters.Measurement;
-using api.Models;
+using api.Formatters;
 using api.Repositories;
 using api.Services;
 using api.Settings;
 using api.Workers;
-using RabbitMQ.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.OutputFormatters.Add(new CustomCsvFormatter()));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHostedService<Worker>();

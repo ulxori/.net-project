@@ -28,4 +28,10 @@ public class MeasurementController : ControllerBase
         return await _measurementService.Get(filteringFilteringParameters, sortingParameters);
     }
     
+    /*[HttpGet(Name = "d")]
+    public async Task<FileContentResult> DownloadCSV()
+    {
+        return File(new System.Text.UTF8Encoding().GetBytes(csv), "text/csv", "Report123.csv");
+    }*/
+    
 }
