@@ -1,0 +1,94 @@
+﻿@page
+@model ProjektSiNet.Pages.ChartModel
+@{
+    ViewData["Title"] = "Wykresy";
+}
+
+<form method="post">
+    <div class="filter-div">
+
+        <label>Wybierz typ pomiaru</label>
+        <select asp-for="ChosenType" class="margin-left-4px">
+            <option value="">brak</option>
+            <option value="ozone">Stężenie ozonu</option>
+            <option value="moisture">Wilgotność gleby</option>
+            <option value="temperature">Temperatura gleby</option>
+            <option value="insolation">Nasłonecznienie</option>
+        </select>
+
+        <label class="margin-left-20px">Wybierz instancję czujnika</label>
+        <select asp-for="ChosenInstance" class="margin-left-4px">
+            <option value="null">brak</option>
+            @foreach (var number in ChartModel.Measurements.Select(m => m.SensorNumber).OrderBy(m => m).Distinct().ToList())
+            {
+                <option value="@number">@number</option>
+            }
+        </select>
+    </div>
+    <div class="filter-div">
+
+        <label>Wybierz datę początkową</label>
+        <input type="date" asp-for="ChosenStartDate" class="margin-left-4px" />
+
+        <label class="margin-left-20px">Wybierz datę końcową</label>
+        <input type="date" asp-for="ChosenEndDate" class="margin-left-4px" />
+
+    </div>
+    <div class="filter-div">
+        <button class="btn btn-primary" asp-page-handler="FilterData">Zatwierdź</button>
+    </div>
+</form>
+
+
+<div>
+    <canvas id="myChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx = document.getElementById('myChart');
+
+    var data = @Html.Raw(Json.Serialize(ChartModel.Measurements));
+    console.log(data);
+    
+    let values = [];
+    let dates = [];
+
+    data.forEach(obj => {
+        if (obj.sensorType == 'ozone') {
+            values.push(obj.value);
+            dates.push(obj.date);
+        }
+    });
+
+    dates.sort(function (a, b) {
+        return a.localeCompare(b);
+    });
+
+    console.log(values);
+    console.log(dates);
+
+    if (@Html.Raw(Json.Serialize(ChartModel.ShowGraph))) {
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: @Html.Raw(Json.Serialize(ChartModel.Labels)),
+                datasets: [{
+                    label: @Html.Raw(Json.Serialize(ChartModel.Title)),
+                    data: @Html.Raw(Json.Serialize(ChartModel.Values)),
+                    borderColor: @Html.Raw(Json.Serialize(ChartModel.Color)),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+    
+</script>

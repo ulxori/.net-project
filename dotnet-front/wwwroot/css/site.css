@@ -1,0 +1,62 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.filter-div {
+    padding: 8px;
+}
+
+.float-right {
+    float: right !important;
+}
+
+.margin-left-20px {
+    margin-left: 20px;
+}
+
+.margin-left-4px {
+    margin-left: 4px;
+}
+
+.margin-right-4px {
+    margin-right: 4px;
+}
+
+.sensor-dashboard-div {
+    padding: 5px;
+    display: inline-block;
+    width: 150px;
+    border: 1px solid black;
+    text-align: center;
+}
+
+.div-container {
+    display: flex; 
+}
+
+.dashboard-panel-left {
+    flex: 1;
+    padding: 1em;
+    min-height: 300px;
+}
+
+.dashboard-panel-right {
+    flex: 1;
+    padding: 1em;
+    min-height: 300px;
+}

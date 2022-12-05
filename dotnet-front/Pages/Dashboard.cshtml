@@ -1,0 +1,196 @@
+﻿@page
+@model ProjektSiNet.Pages.DashboardModel
+@{
+}
+
+<h1 style="text-align: center">Wartości czujników</h1>
+<br />
+
+<div class="div-container">
+    <div class="dashboard-panel-left">
+        <div>
+            <div>Ostatnia wartość pomiaru zanieczyszczeń: <span id="last-ozone-span"></span></div>
+            <div>Średnia wartość pomiaru zanieczyszczeń: <span id="avg-ozone-span"></span></div>
+            <br />
+        </div>
+        <div>
+            <div>Ostatnia wartość pomiaru temperatury gleby: <span id="last-temperature-span"></span></div>
+            <div>Średnia wartość pomiaru temperatury gleby: <span id="avg-temperature-span"></span></div>
+            <br />
+        </div>
+        <div>
+            <div>Ostatnia wartość pomiaru wilgotności gleby: <span id="last-moisture-span"></span></div>
+            <div>Średnia wartość pomiaru wilgotności gleby: <span id="avg-moisture-span"></span></div>
+            <br />
+        </div>
+        <div>
+            <div>Ostatnia wartość pomiaru nasłonecznienia: <span id="last-insolation-span"></span></div>
+            <div>Średnia wartość pomiaru nasłonecznienia: <span id="avg-insolation-span"></span></div>
+            <br />
+        </div>
+    </div>
+    <div class="dashboard-panel-right">
+        <div id="dashboard-panel">
+            <div class="sensor-dashboard-div"><b>Numer czujnika</b></div>
+            <div class="sensor-dashboard-div" style="margin-left: -4px;"><b>Ostatnia wartość</b></div>
+            <div class="sensor-dashboard-div" style="margin-left: -4px; width: 149px;"><b>Wartość średnia</b></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const BASE_URL = 'http://localhost:2172/measurement';
+
+    let measurementsData = [];  
+
+    let dashboardSensorsData = [];
+    let sensorNumbers = [];
+
+    let dashboardGroupData = [];
+
+    let flag = false;
+
+
+    // functions for computing values
+
+    function getValues(num) {
+        let lastMeasurement = measurementsData.findLast(m => m.sensorNumber == num);
+        return [lastMeasurement.value, lastMeasurement.sensorType];
+    }
+
+    function computeAvg(num) {
+        let sensorMeasurements = measurementsData.filter(m => m.sensorNumber == num);
+        let values = sensorMeasurements.map(m => m.value).slice(-100);
+
+        return values.reduce((a, b) => a + b, 0) / values.length;
+    }
+
+    function getLastGroupValue(group) {
+        let lastMeasurement = measurementsData.findLast(m => m.sensorType == group);
+        return lastMeasurement.value;
+    }
+
+    function computeAvgGroup(group) {
+        let sensorMeasurements = measurementsData.filter(m => m.sensorType == group);
+        let values = sensorMeasurements.map(m => m.value).slice(-100);
+
+        return values.reduce((a, b) => a + b, 0) / values.length;
+    }
+
+    function computeData() {
+        sensorNumbers.forEach(num => {
+            var values = getValues(num);
+            let obj = { sensorNumber: num, lastValue: values[0], avgValue: computeAvg(num), type: values[1] };
+            dashboardSensorsData.push(obj);
+        });
+
+        dashboardGroupData = [
+            { group: "ozone", lastValue: getLastGroupValue("ozone"), avgValue: computeAvgGroup("ozone") },
+            { group: "temperature", lastValue: getLastGroupValue("temperature"), avgValue: computeAvgGroup("temperature") },
+            { group: "insolation", lastValue: getLastGroupValue("insolation"), avgValue: computeAvgGroup("insolation") },
+            { group: "moisture", lastValue: getLastGroupValue("moisture"), avgValue: computeAvgGroup("moisture") }
+        ]
+    }
+
+    // functions for creating/updating divs
+
+    function getProperUnit(sensorType) {
+        switch (sensorType) {
+            case "ozone":
+                return " &#xb5;g/m<sup>3</sup>";
+            case "moisture":
+                return " %";
+            case "temperature":
+                return " &#x2103;";
+            default:
+                return "  W/m<sup>2</sup>";
+        }       
+    }
+
+    function updateGroupsPans() {
+        dashboardGroupData.forEach(d => {
+            let valSpan = document.getElementById('last-' + d.group + '-span');
+            let avgSpan = document.getElementById('avg-' + d.group + '-span');
+
+            if (d.group == "temperature")
+                valSpan.innerHTML = d.lastValue.toFixed(2) + getProperUnit(d.group);
+            else
+                valSpan.innerHTML = d.lastValue + getProperUnit(d.group);
+
+            avgSpan.innerHTML = d.avgValue.toFixed(2) + getProperUnit(d.group);
+        });
+    }
+
+    function updateSensorsDivs() {
+        dashboardSensorsData.forEach(d => {
+            let valDiv = document.getElementById('last_' + d.sensorNumber);
+            let avgDiv = document.getElementById('avg_' + d.sensorNumber);
+
+            if (d.lastValue % 1 === 0)
+                valDiv.innerHTML = d.lastValue + getProperUnit(d.type);
+            else
+                valDiv.innerHTML = (Math.round(d.lastValue * 100) / 100).toFixed(2) + getProperUnit(d.type);
+
+            avgDiv.innerHTML = d.avgValue.toFixed(2) + getProperUnit(d.type);
+        });
+    }
+
+    function createSensorsDivs() {
+        dashboardSensorsData.forEach(d => {
+            let containerDiv = document.createElement('div');
+
+            let newSensDiv = document.createElement('div');
+            newSensDiv.id = 'sens_' + d.sensorNumber;
+            newSensDiv.className = 'sensor-dashboard-div';
+            newSensDiv.innerHTML = d.sensorNumber;
+
+            let newValDiv = document.createElement('div');
+            newValDiv.id = 'last_' + d.sensorNumber;
+            newValDiv.className = 'sensor-dashboard-div';
+
+            if (d.lastValue % 1 === 0)
+                newValDiv.innerHTML = d.lastValue + getProperUnit(d.type);
+            else
+                newValDiv.innerHTML = (Math.round(d.lastValue * 100) / 100).toFixed(2) + getProperUnit(d.type);
+
+            let newAvgDiv = document.createElement('div');
+            newAvgDiv.id = 'avg_' + d.sensorNumber;
+            newAvgDiv.className = 'sensor-dashboard-div';
+            newAvgDiv.innerHTML = d.avgValue.toFixed(2) + getProperUnit(d.type);
+
+            let panel = document.getElementById('dashboard-panel');
+            containerDiv.appendChild(newSensDiv);
+            containerDiv.appendChild(newValDiv);
+            containerDiv.appendChild(newAvgDiv);
+            panel.appendChild(containerDiv);
+        });
+    }
+
+    // main function
+
+    function makeApiCall() {
+        fetch(BASE_URL)
+            .then((response) => response.json())
+            .then((data) => {
+                if (measurementsData.length != data.length) {
+                    measurementsData = data;
+
+                    sensorNumbers = [...new Set(data.map(item => item.sensorNumber))];
+                    sensorNumbers.sort((a, b) => a - b);
+                    
+                    computeData();
+
+                    updateGroupsPans();
+
+                    if (flag) {
+                        updateSensorsDivs();
+                    } else {
+                        createSensorsDivs();
+                        flag = true;
+                    }
+                }
+            });
+    }
+
+    setInterval(makeApiCall, 150);
+</script>

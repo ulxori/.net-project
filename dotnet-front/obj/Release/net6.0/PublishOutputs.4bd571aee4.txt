@@ -1,0 +1,17 @@
+/Users/grzegorzrychlicki/Projects/dotnet_front/dotnet-front/out/ProjektSiNet
+/Users/grzegorzrychlicki/Projects/dotnet_front/dotnet-front/out/appsettings.Development.json
+/Users/grzegorzrychlicki/Projects/dotnet_front/dotnet-front/out/appsettings.json
+/Users/grzegorzrychlicki/Projects/dotnet_front/dotnet-front/out/ProjektSiNet.dll
+/Users/grzegorzrychlicki/Projects/dotnet_front/dotnet-front/out/ProjektSiNet.deps.json
+/Users/grzegorzrychlicki/Projects/dotnet_front/dotnet-front/out/ProjektSiNet.runtimeconfig.json
+/Users/grzegorzrychlicki/Projects/dotnet_front/dotnet-front/out/ProjektSiNet.pdb
+/Users/grzegorzrychlicki/Projects/dotnet_front/dotnet-front/out/System.Web.Razor.dll
+/Users/grzegorzrychlicki/Projects/dotnet_front/dotnet-front/out/Microsoft.Web.Helpers.dll
+/Users/grzegorzrychlicki/Projects/dotnet_front/dotnet-front/out/System.Web.Helpers.dll
+/Users/grzegorzrychlicki/Projects/dotnet_front/dotnet-front/out/System.Web.WebPages.Deployment.dll
+/Users/grzegorzrychlicki/Projects/dotnet_front/dotnet-front/out/System.Web.WebPages.Razor.dll
+/Users/grzegorzrychlicki/Projects/dotnet_front/dotnet-front/out/System.Web.WebPages.dll
+/Users/grzegorzrychlicki/Projects/dotnet_front/dotnet-front/out/WebMatrix.Data.dll
+/Users/grzegorzrychlicki/Projects/dotnet_front/dotnet-front/out/WebMatrix.WebData.dll
+/Users/grzegorzrychlicki/Projects/dotnet_front/dotnet-front/out/Microsoft.Web.Infrastructure.dll
+/Users/grzegorzrychlicki/Projects/dotnet_front/dotnet-front/out/Newtonsoft.Json.dll

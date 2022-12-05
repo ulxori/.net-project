@@ -1,0 +1,168 @@
+﻿@page
+@model MeasurementModel
+@{
+    ViewData["Title"] = "Odczyty czujników";
+}
+
+<form method="post">
+    <div class="filter-div">
+
+        <label>Wybierz typ pomiaru</label>
+        <select asp-for="ChosenType" class="margin-left-4px">
+            <option value="">brak</option>
+            <option value="ozone">Stężenie ozonu</option>
+            <option value="moisture">Wilgotność gleby</option>
+            <option value="temperature">Temperatura gleby</option>
+            <option value="insolation">Nasłonecznienie</option>
+        </select>
+
+        <label class="margin-left-20px">Wybierz instancję czujnika</label>
+        <select asp-for="ChosenInstance" class="margin-left-4px">
+            <option value="null">brak</option>
+            @foreach (var number in MeasurementModel.Measurements.Select(m => m.SensorNumber).OrderBy(m => m).Distinct().ToList())
+            {
+                <option value="@number">@number</option>
+            }
+        </select>
+    </div>
+    <div class="filter-div">
+
+        <label>Wybierz datę początkową</label>
+        <input type="date" asp-for="ChosenStartDate" class="margin-left-4px" />
+
+        <label class="margin-left-20px">Wybierz datę końcową</label>
+        <input type="date" asp-for="ChosenEndDate" class="margin-left-4px" />
+
+    </div>
+    <div class="filter-div">
+        <button class="btn btn-primary" asp-page-handler="FilterData">Zatwierdź</button>
+
+        <a download href="@Url.Page("Measurement", "DownloadJson")" class="btn btn-outline-dark float-right">
+            Pobierz Json
+        </a>
+
+        <a download href="@Url.Page("Measurement", "DownloadCsv")" class="btn btn-outline-success float-right margin-right-4px">
+            Pobierz CSV
+        </a>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    Typ
+                    <button class="btn btn-outline-danger btn-sm" asp-page-handler="SortByType">
+                        @if (MeasurementModel.SortType == "sensorType" && MeasurementModel.Order != "None")
+                        {
+                            @if(MeasurementModel.Order == "Asc")
+                            {
+                                <span>&#8593;</span>
+                            }
+                            else
+                            {
+                                <span>&#8595;</span>
+                            }
+                        }
+                        else
+                        {
+                            <span>&#8597;</span>
+                        }
+                    </button>
+                </th>
+                <th>
+                    Numer czujnika
+                    <button class="btn btn-outline-danger btn-sm" asp-page-handler="SortBySensor">
+                        @if (MeasurementModel.SortType == "sensorNumber" && MeasurementModel.Order != "None")
+                        {
+                            @if (MeasurementModel.Order == "Asc")
+                            {
+                                <span>&#8593;</span>
+                            }
+                            else
+                            {
+                                <span>&#8595;</span>
+                            }
+                        }
+                        else
+                        {
+                            <span>&#8597;</span>
+                        }
+                    </button>
+                </th>
+                <th>
+                    Data odczytu
+                    <button class="btn btn-outline-danger btn-sm" asp-page-handler="SortByDate">
+                        @if (MeasurementModel.SortType == "date" && MeasurementModel.Order != "None")
+                        {
+                            @if(MeasurementModel.Order == "Asc")
+                            {
+                                <span>&#8593;</span>
+                            }
+                            else
+                            {
+                                <span>&#8595;</span>
+                            }
+                        }
+                        else
+                        {
+                            <span>&#8597;</span>
+                        }
+                    </button>
+                </th>
+                <th>
+                    Wartość
+                    <button class="btn btn-outline-danger btn-sm" asp-page-handler="SortByValue">
+                        @if (MeasurementModel.SortType == "value" && MeasurementModel.Order != "None")
+                        {
+                            @if(MeasurementModel.Order == "Asc")
+                            {
+                                <span>&#8593;</span>
+                            }
+                            else
+                            {
+                                <span>&#8595;</span>
+                            }
+                        }
+                        else
+                        {
+                            <span>&#8597;</span>
+                        }
+                    </button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var measurement in MeasurementModel.Measurements)
+            {
+                <tr>
+                    <td>@measurement.SensorType</td>
+                    <td>@measurement.SensorNumber</td>
+                    <td>@measurement.Date.ToShortDateString()</td>
+                    <td>
+                        
+                        @if (@measurement.SensorType == "insolation")
+                        {
+                            @measurement.Value
+                            <span>W/m<sup>2</sup></span>
+                        }
+                        else if (@measurement.SensorType == "moisture")
+                        {
+                            @measurement.Value
+                            <span>%</span>
+                        }
+                        else if (@measurement.SensorType == "temperature")
+                        {
+                            @measurement.Value.ToString("0.0")
+                            <span>&#x2103;</span>
+                        }
+                        else
+                        {
+                            @measurement.Value
+                            <span>&#xb5;g/m<sup>3</sup></span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
