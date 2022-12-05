@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+
+<Pane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="net.generator.GeneratorController" styleClass="main-pane">
+    <Pane styleClass="main-pane">
+        <Label layoutX="60.0" layoutY="30.0" text="Podaj adres IP:" styleClass="red"/>
+        <TextField fx:id="ipTextField" layoutX="180.0" layoutY="30.0" styleClass="txt-field-bigger"/>
+        <Label layoutX="400.0" layoutY="30.0" text="Podaj port:" styleClass="red"/>
+        <TextField fx:id="portTextField" layoutX="490.0" layoutY="30.0" styleClass="txt-field"/>
+        <Label layoutX="650.0" layoutY="30.0" text="Nazwa kolejki:" styleClass="red"/>
+        <TextField fx:id="queueTextField" layoutX="770.0" layoutY="30.0" styleClass="txt-field-bigger"/>
+
+        <Label layoutX="60.0" layoutY="80.0" text="Minimalna wilgotność gleby:" styleClass="blue"/>
+        <Slider fx:id="minSoilMoistureSlider" layoutX="300.0" layoutY="86.0" min="10" max="90" styleClass="normal-slider"
+                onMouseDragged="#changeMinSoilMoistureValue" onMouseClicked="#changeMinSoilMoistureValue"/>
+        <Label fx:id="minSoilMoistureLabel" layoutX="450.0" layoutY="84.5" text="10"/>
+
+        <Label layoutX="500.0" layoutY="80.0" text="Maksymalna wilgotność gleby:" styleClass="blue"/>
+        <Slider fx:id="maxSoilMoistureSlider" layoutX="750.0" layoutY="86.0" min="10" max="90" styleClass="normal-slider"
+                onMouseDragged="#changeMaxSoilMoistureValue" onMouseClicked="#changeMaxSoilMoistureValue"/>
+        <Label fx:id="maxSoilMoistureLabel" layoutX="900.0" layoutY="84.5" text="10"/>
+        <Label layoutX="985.0" layoutY="84.5" text="[wartość %]"/>
+
+        <Label layoutX="60.0" layoutY="120.0" text="Minimalna temperatura gleby:" styleClass="blue"/>
+        <Slider fx:id="minSoilTemperatureSlider" layoutX="300.0" layoutY="126.0" min="-10.0" max="30.0"
+                styleClass="normal-slider" onMouseDragged="#changeMinSoilMoistureValue"
+                onMouseClicked="#changeMinSoilTemperatureValue"/>
+        <Label fx:id="minSoilTemperatureLabel" layoutX="450.0" layoutY="124.5" text="-10"/>
+
+        <Label layoutX="500.0" layoutY="120.0" text="Maksymalna temperatura gleby:" styleClass="blue"/>
+        <Slider fx:id="maxSoilTemperatureSlider" layoutX="750.0" layoutY="126.0" min="-10.0" max="30.0"
+                styleClass="normal-slider" onMouseDragged="#changeMinSoilMoistureValue"
+                onMouseClicked="#changeMaxSoilTemperatureValue"/>
+        <Label fx:id="maxSoilTemperatureLabel" layoutX="900.0" layoutY="124.5" text="-10"/>
+        <Label layoutX="985.0" layoutY="124.5" text="[stopnie Celsjusza]"/>
+
+        <Label layoutX="60.0" layoutY="160.0" text="Minimalne nasłonecznienie:" styleClass="blue"/>
+        <Slider fx:id="minInsolationSlider" layoutX="300.0" layoutY="166.0" min="0" max="1000" styleClass="normal-slider"
+                onMouseDragged="#changeMinInsolationValue" onMouseClicked="#changeMinInsolationValue"/>
+        <Label fx:id="minInsolationLabel" layoutX="450.0" layoutY="164.5" text="0"/>
+
+        <Label layoutX="500.0" layoutY="160.0" text="Maksymalne nasłonecznienie:" styleClass="blue"/>
+        <Slider fx:id="maxInsolationSlider" layoutX="750.0" layoutY="166.0" min="0" max="1000" styleClass="normal-slider"
+                onMouseDragged="#changeMaxInsolationValue" onMouseClicked="#changeMaxInsolationValue"/>
+        <Label fx:id="maxInsolationLabel" layoutX="900.0" layoutY="164.5" text="0"/>
+        <Label layoutX="985.0" layoutY="164.5" text="[W/m^2]"/>
+
+        <Label layoutX="60.0" layoutY="200.0" text="Minimalne stężenie O3:" styleClass="blue"/>
+        <Slider fx:id="minOzoneSlider" layoutX="300.0" layoutY="206.0" min="1" max="5000000" styleClass="normal-slider"
+                onMouseDragged="#changeMinOzoneValue" onMouseClicked="#changeMinOzoneValue"/>
+        <Label fx:id="minOzoneLabel" layoutX="450.0" layoutY="204.5" text="0"/>
+
+        <Label layoutX="500.0" layoutY="200.0" text="Maksymalne stężenie O3:" styleClass="blue"/>
+        <Slider fx:id="maxOzoneSlider" layoutX="750.0" layoutY="206.0" min="1" max="1000" styleClass="normal-slider"
+                onMouseDragged="#changeMaxOzoneValue" onMouseClicked="#changeMaxOzoneValue"/>
+        <Label fx:id="maxOzoneLabel" layoutX="900.0" layoutY="204.5" text="0"/>
+        <Label layoutX="985.0" layoutY="204.5" text="[mikrogram/m^3]"/>
+
+        <Label layoutX="60.0" layoutY="280.0" text="Ustaw częstotliwość generowania wilgotności gleby:"
+               styleClass="black"/>
+        <Slider fx:id="moistureFrequencySlider" layoutX="500.0" layoutY="286.0" min="1" max="60" styleClass="long-slider"
+                onMouseDragged="#setMoistureFrequency" onMouseClicked="#setMoistureFrequency"/>
+        <Label fx:id="moistureFrequencyLabel" layoutX="760.0" layoutY="284.5" text="0"/>
+        <Label layoutX="775.0" layoutY="284.5" text="na minutę"/>
+
+        <Label layoutX="60.0" layoutY="320.0" text="Ustaw częstotliwość generowania temperatury gleby:"
+               styleClass="black"/>
+        <Slider fx:id="temperatureFrequencySlider" layoutX="500.0" layoutY="326.0" min="1" max="60" styleClass="long-slider"
+                onMouseDragged="#setTemperatureFrequency" onMouseClicked="#setTemperatureFrequency"/>
+        <Label fx:id="temperatureFrequencyLabel" layoutX="760.0" layoutY="324.5" text="0"/>
+        <Label layoutX="775.0" layoutY="324.5" text="na minutę"/>
+
+        <Label layoutX="60.0" layoutY="360.0" text="Ustaw częstotliwość generowania nasłonecznienia:"
+               styleClass="black"/>
+        <Slider fx:id="insolationFrequencySlider" layoutX="500.0" layoutY="366.0" min="1" max="60" styleClass="long-slider"
+                onMouseDragged="#setInsolationFrequency" onMouseClicked="#setInsolationFrequency"/>
+        <Label fx:id="insolationFrequencyLabel" layoutX="760.0" layoutY="364.5" text="0"/>
+        <Label layoutX="775.0" layoutY="364.5" text="na minutę"/>
+
+        <Label layoutX="60.0" layoutY="400.0" text="Ustaw częstotliwość generowania stężenia O3:"
+               styleClass="black"/>
+        <Slider fx:id="ozoneFrequencySlider" layoutX="500.0" layoutY="406.0" min="1" max="60" styleClass="long-slider"
+                onMouseDragged="#setOzoneFrequency" onMouseClicked="#setOzoneFrequency"/>
+        <Label fx:id="ozoneFrequencyLabel" layoutX="760.0" layoutY="404.5" text="0"/>
+        <Label layoutX="775.0" layoutY="404.5" text="na minutę"/>
+
+        <CheckBox fx:id="phaseCheckBox" layoutX="100.0" layoutY="450">
+            Faza 2
+        </CheckBox>
+
+        <Button fx:id="generateBtn" onAction="#generateData" layoutX="465.0" layoutY="500.0" text="Generuj dane"
+                onMouseEntered="#changeButtonColor" onMouseExited="#resetButtonColor" styleClass="generate-btn" />
+    </Pane>
+    <stylesheets>
+        <URL value="@Styles.css"/>
+    </stylesheets>
+</Pane>
