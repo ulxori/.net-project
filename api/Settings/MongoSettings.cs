@@ -9,10 +9,11 @@ public class MongoSettings
     public MongoSettings()
     {
         ConnectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING")
-                           ?? "mongodb://root:root@localhost:27017";
+                           //?? "mongodb://root:root@mongo:27017";
+                           ?? "mongodb://root:student@actina15.maas:27017";
         CollectionName = Environment.GetEnvironmentVariable("COLLECTION_NAME")
                          ?? "SPINACH_COLLECTION";
         DatabaseName = Environment.GetEnvironmentVariable("DATABASE_NAME")
-                       ?? "SPINACH_DB";
+                       ?? "172172_DB";
     }
 }

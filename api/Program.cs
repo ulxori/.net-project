@@ -7,7 +7,15 @@ using api.Settings;
 using api.Workers;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Policy1",
+        policy=>
+        {
+            policy.WithOrigins("*")
+                .WithMethods("*");
+        });
+});
 
 builder.Services.AddControllers(options => options.OutputFormatters.Add(new CustomCsvFormatter()));
 builder.Services.AddEndpointsApiExplorer();
@@ -28,6 +36,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("Policy1");
 //app.UseHttpsRedirection();
 
 //app.UseAuthorization();
