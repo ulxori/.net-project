@@ -27,13 +27,13 @@ namespace ProjektSiNet.Pages
         [BindProperty]
         public int? ChosenInstance { get; set; }
 
-        public static string SensorType { get; set; }
+        public static string? SensorType { get; set; }
 
-        public static string StartDate { get; set; }
+        public static string? StartDate { get; set; }
 
-        public static string EndDate { get; set; }
+        public static string? EndDate { get; set; }
 
-        public static int SensorNumber { get; set; }
+        public static int? SensorNumber { get; set; }
 
         public static string SortType { get; set; }
 
@@ -177,24 +177,40 @@ namespace ProjektSiNet.Pages
                 Measurements = Measurements.Where(m => m.SensorType == ChosenType).ToList();
                 SensorType = ChosenType;
             }      
+            else
+            {
+                SensorType = null;
+            }
 
             if (ChosenStartDate != null)
             {
                 Measurements = Measurements.Where(m => DateTime.Compare(m.Date, (DateTime)ChosenStartDate) >= 0).ToList();
                 StartDate = ((DateTime)ChosenStartDate).ToString("yyyy-MM-dd");
             }  
+            else
+            {
+                StartDate = null;
+            }
 
             if (ChosenEndDate != null)
             {
                 Measurements = Measurements.Where(m => DateTime.Compare(m.Date, (DateTime)ChosenEndDate) <= 0).ToList();
                 EndDate = ((DateTime)ChosenEndDate).ToString("yyyy-MM-dd");
             }
+            else
+            {
+                EndDate = null;
+            }
                 
             if (ChosenInstance != null)
             {
                 Measurements = Measurements.Where(m => m.SensorNumber == ChosenInstance).ToList();
                 SensorNumber = (int)ChosenInstance;
-            }  
+            }
+            else
+            {
+                SensorNumber = null;
+            }
 
             SortData();
         }
