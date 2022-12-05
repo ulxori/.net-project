@@ -18,7 +18,6 @@ services:
       - DATABASE_NAME=172172_DB
     ports:
       - "2172:80"
-    restart: on-failure
     depends_on:
       - rabbitmq2
   
